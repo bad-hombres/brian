@@ -1,0 +1,36 @@
+[
+  {
+    "name": "sublist3r",
+    "steps": [
+      {"name": "run", "exec_per_line": true, "command": "python $TOOLS_DIR/sublist3r.py -d ${line} -o $TMP_FILE >/dev/null" },
+      {"name": "to_lower"},
+      {"name": "dedup"}
+    ]
+  },
+  {
+    "name": "assetfinder",
+    "steps": [
+      {"name": "run", "exec_per_line": true, "command": "$TOOLS_DIR/assetfinder ${line}"},
+      {"name": "to_lower"},
+      {"name": "dedup"}
+    ]
+  },
+  {
+    "name": "gobuster",
+    "steps": [
+      {"name": "run", "exec_per_line": true, "command": "$TOOLS_DIR/gobuster dns -d ${line} -z -w $LIST_LOCATION/subdomains.txt -o $TMP_FILE >/dev/null; sed -i 's/^Found: //g' $TMP_FILE "},
+      {"name": "to_lower"},
+      {"name": "dedup"}
+    ]
+  },
+  {
+    "name": "subdomains",
+    "steps": [
+      {"name": "sublist3r", "parallel": true},
+      {"name": "assetfinder", "parallel": true},
+      {"name": "gobuster", "parallel": true},
+      {"name": "to_lower"},
+      {"name": "dedup"}
+    ]
+  }
+]

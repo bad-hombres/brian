@@ -1,0 +1,22 @@
+[
+  {
+    "name": "domains",
+    "command": "cat $PROJECT_DIR/domains.txt"
+  },
+  {
+    "name": "previous_subdomains",
+    "command": "cd $PROJECT_DIR/subdomains && cat $(ls -t1 | tail -n +2) /dev/null | sort -u && cd - >/dev/null"
+  },
+  {
+    "name": "latest_subdomains",
+    "command": "cat $PROJECT_DIR/subdomains/$(ls -t1 subdomains | head -n1)"
+  },
+  {
+    "name": "newest_subdomains",
+    "command": "diff <(previous_subdomains) <(latest_subdomains) | grep '> ' --color=never | sed 's/^> //g'" 
+  },
+  {
+    "name": "all_subdomains",
+    "command": "cat $PROJECT_DIR/subdomains/* | to_lower | dedup"
+  }
+]

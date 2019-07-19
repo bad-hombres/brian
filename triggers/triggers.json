@@ -1,0 +1,19 @@
+[
+  {
+    "name": "domain_discovery",
+    "type": "time",
+    "start_time": "11:57",
+    "repeat_freq": "00:05",
+    "source": "domains",
+    "command": "subdomains",
+    "sink": "new_subdomain_file"
+  },
+  {
+    "name": "report_newest_subdomains",
+    "type": "fs_watch",
+    "path": "subdomains",
+    "source": "",
+    "command": "newest_subdomains",
+    "sink": "slack"
+  }
+]

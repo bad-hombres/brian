@@ -1,0 +1,14 @@
+[
+  {
+    "name": "dedup",
+    "steps": [
+      {"name": "run", "exec_per_line": false, "command": "sort -u"}
+    ]
+  },
+  {
+    "name": "to_lower",
+    "steps": [
+      {"name": "run", "exec_per_line": false, "command": "tr '[:upper:]' '[:lower:]'"}
+    ]
+  }
+]

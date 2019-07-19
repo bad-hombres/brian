@@ -1,0 +1,14 @@
+[
+  {
+    "name": "new_subdomain_file",
+    "command": "local FILE_NAME=$PROJECT_DIR/subdomains/subdomains.$(date +%Y%m%d%H%M%S); cat <&0 >$FILE_NAME"
+  },
+  {
+    "name": "slack",
+    "command": "$TOOLS_DIR/slack file upload --filename ${1:-command_output.txt} --channels \"${2:-#bugbounty-brian}\""
+  },
+  {
+    "name": "slack-choose",
+    "command": "fzf -m | slack ${1:-command_output.txt}"
+  }
+]
