@@ -10,7 +10,7 @@ per_line = """function {name}() {{
         echo "[+] Running {command}" >&2
         {command}
     done
-    cat $TMP/* | fzf ${{1:---filter=^}}
+    cat $TMP/*
 }}
 """
 
@@ -18,23 +18,24 @@ accepts_stdin = """function {name}() {{
     echo "[+] Starting step {name}" >&2
     local TMP_FILE=$(mktemp)
     {command} > $TMP_FILE
-    cat $TMP_FILE | fzf ${{1:---filter=^}}
+    cat $TMP_FILE
 }}
 """
 
 workflow_template = """{content}
 function {name}() {{
     local TMP_DIR=$(mktemp -d)
+    local FZF_FLAG=${{1:---filter=^}}
     mkdir -p $TMP_DIR/background_tasks
     {background_tasks}
-    {pipeline} | fzf ${{1:---filter=^}}
+    {pipeline} | fzf $FZF_FLAG
     rm -rf $TMP_DIR
 }}
 
 """
 
 wait_for_jobs="""function wait_for_jobs() {
-    cat $1/background_tasks/* | fzf ${{2:---filter=^}}
+    cat $1/background_tasks/*
 }
 """
 
@@ -57,9 +58,17 @@ function {name}() {{
 }}
 """
 
+sink_function="""
+function {name}() {{
+    {command}
+}}
+"""
+
 def generate_source_function(source):
     return source_function.format(**source)
 
+def generate_sink_function(sink):
+    return sink_function.format(**sink)
 
 def generate_workflow_functions(data):
     workflow_name = data["name"]
@@ -147,7 +156,7 @@ def generate_shell_functions(dirs):
     functions = []
     for d in dirs:
         functions += generate_functions(os.path.join(d, "sources"), generate_source_function)
-        functions += generate_functions(os.path.join(d, "sinks"), generate_source_function)
+        functions += generate_functions(os.path.join(d, "sinks"), generate_sink_function)
         functions += generate_functions(os.path.join(d, "pipelines"), generate_workflow_functions)
 
     functions.insert(0, wait_for_jobs)
