@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys, json, glob, os
 
 per_line = """function {name}() {{
@@ -10,7 +10,7 @@ per_line = """function {name}() {{
         echo "[+] Running {command}" >&2
         {command}
     done
-    cat $TMP/*
+    cat $TMP/* | fzf ${{1:---filter=^}}
 }}
 """
 
@@ -18,7 +18,7 @@ accepts_stdin = """function {name}() {{
     echo "[+] Starting step {name}" >&2
     local TMP_FILE=$(mktemp)
     {command} > $TMP_FILE
-    cat $TMP_FILE
+    cat $TMP_FILE | fzf ${{1:---filter=^}}
 }}
 """
 
@@ -27,14 +27,14 @@ function {name}() {{
     local TMP_DIR=$(mktemp -d)
     mkdir -p $TMP_DIR/background_tasks
     {background_tasks}
-    {pipeline}
+    {pipeline} | fzf ${{1:---filter=^}}
     rm -rf $TMP_DIR
 }}
 
 """
 
 wait_for_jobs="""function wait_for_jobs() {
-    cat $1/background_tasks/*
+    cat $1/background_tasks/* | fzf ${{2:---filter=^}}
 }
 """
 
@@ -53,7 +53,7 @@ def generate_step_function(step):
 
 source_function="""
 function {name}() {{
-    {command}
+    {command} | fzf ${{1:---filter=^}} 
 }}
 """
 
