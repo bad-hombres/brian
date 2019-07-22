@@ -10,14 +10,13 @@ $ git clone https://github.com/bad-hombres/brian.git
 Remeber to create symlinks to all your tools in the $BRIAN_HOME/tools
 
 # Tools used
-https://github.com/rockymadden/slack-cli
-https://github.com/OJ/gobuster
-https://github.com/aboul3la/Sublist3r
-https://github.com/tomnomnom/hacks/tree/master/assetfinder
-https://github.com/junegunn/fzf
-
-inotify-tools
-zsh (and zsh/sched plugin)
+- https://github.com/rockymadden/slack-cli
+- https://github.com/OJ/gobuster
+- https://github.com/aboul3la/Sublist3r
+- https://github.com/tomnomnom/hacks/tree/master/assetfinder
+- https://github.com/junegunn/fzf
+- inotify-tools
+- zsh (and zsh/sched plugin)
 
 # How to use
 ```
@@ -27,8 +26,7 @@ $ cat <<EOF > project.zsh
 export PROJECT_NAME=my_project
 export BRIAN_HOME=/path/to/brian
 
-source $BRIAN_HOME/brian_general.zsh
-source shell_functions.zsh
+source \$BRIAN_HOME/brian_general.zsh
 EOF
 $ source project.zsh
 $ echo somedomain.com > domains.txt
@@ -48,7 +46,14 @@ $ newest_subdomains | slack new_subdomains.txt "#brian"
 
 This will diff the new list of subdomains against all previously enumerated
 subdomains and upload the new domains to the #brian channel in slack as a file
-named new_subdomains
+named new_subdomains. If you use the -m flag with any pipeline or source then
+you will get the fzf fuzzy finder (can only use once per commandline. So
+```
+$ domains | subdomains -m | slack subdomains.txt
+```
+Will to sub domain enum for every domain in domains.txt and allow you to choose
+which ones to upload via slack as subdomains.txt (add the slack channel name as
+channel default is "#bugbounty-brian")
 
 Oh yeah triggers!!! 
 In new windows (every one uses tmux right?)
