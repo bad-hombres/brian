@@ -2,7 +2,7 @@
   {
     "name": "sublist3r",
     "steps": [
-      {"name": "run", "exec_per_line": true, "command": "python $TOOLS_DIR/sublist3r.py -d ${line} -o $TMP_FILE >/dev/null" },
+      {"name": "run", "exec_per_line": true, "command": "python $TOOLS_DIR/Sublist3r/sublist3r.py -d ${line} -o $TMP_FILE >/dev/null" },
       {"name": "to_lower"},
       {"name": "dedup"}
     ]

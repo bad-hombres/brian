@@ -2,7 +2,7 @@
   {
     "name": "domain_discovery",
     "type": "time",
-    "start_time": "11:57",
+    "start_time": "14:34",
     "repeat_freq": "00:05",
     "source": "domains",
     "command": "subdomains",

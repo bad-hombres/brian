@@ -26,6 +26,7 @@ workflow_template = """{content}
 function {name}() {{
     local TMP_DIR=$(mktemp -d)
     local FZF_FLAG=${{1:---filter=^}}
+    disown %1 2>/dev/null
     mkdir -p $TMP_DIR/background_tasks
     {background_tasks}
     {pipeline} | fzf $FZF_FLAG

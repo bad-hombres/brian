@@ -8,4 +8,6 @@ mkdir -p subdomains sources triggers sinks pipelines
 [[ ! -f subdomains/start ]] && touch subdomains/start
 
 python3 $BRIAN_HOME/generate.py
+source shell_functions.zsh
+reset
 
