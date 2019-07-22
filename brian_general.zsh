@@ -9,5 +9,4 @@ mkdir -p subdomains sources triggers sinks pipelines
 
 python3 $BRIAN_HOME/generate.py
 source shell_functions.zsh
-reset
 

@@ -67,6 +67,16 @@ if you create json files in the project created sources, sinks, pipelines,
 triggers directories then they will be included along with with ones provided
 with brian so you may want to think about name clashes
 
+If you eant to auto setup you project environment anytime you cd into a project
+dir (dir containing project.zsh) then add the following to your .zshrc
+
+```
+function chpwd() {            
+    emulate -L zsh
+    [[ -f ./project.zsh ]] && source project.zsh
+}
+```
+
 # Todo?
 - Better docs.
 - Build more stuff with it (its all zsh in the end)
